@@ -1,0 +1,16 @@
+.circle {
+  position: relative;
+  background: lightblue;
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+}
+
+.time {
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  transform: translate(-50%, 50%);
+  font-size: 65px;
+  font-weight: 700;
+}
