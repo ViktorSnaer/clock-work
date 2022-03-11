@@ -1,9 +1,15 @@
 .circle {
   position: relative;
-  background: lightblue;
+  background: rgb(48, 71, 78);
   border-radius: 50%;
   width: 300px;
   height: 300px;
+  opacity: 0;
+  transition: 1s;
+}
+
+.circle:hover {
+  opacity: 1;
 }
 
 .time {
@@ -13,4 +19,6 @@
   transform: translate(-50%, 50%);
   font-size: 65px;
   font-weight: 700;
+  opacity: 1;
+  transition: 2s;
 }
