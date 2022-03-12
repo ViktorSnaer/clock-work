@@ -6,6 +6,7 @@
   height: 300px;
   opacity: 0;
   transition: 1s;
+  margin: auto;
 }
 
 .circle:hover {
@@ -21,4 +22,5 @@
   font-weight: 700;
   opacity: 1;
   transition: 2s;
+  cursor: pointer;
 }

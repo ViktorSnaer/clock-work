@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 
 import classes from "./Clock.module.css";
 
-export default function index() {
+export default function index(props) {
+  const clockMinutes = 90;
+  const clockSeconds = 0;
+
   const [countDown, setCountDown] = useState({
-    minutes: 90,
-    seconds: 0,
+    minutes: clockMinutes,
+    seconds: clockSeconds,
     clockOn: false,
   });
-
-  useEffect(() => console.log(countDown), [countDown]);
 
   function handleOnClick() {
     setCountDown((prev) => {
@@ -33,7 +34,12 @@ export default function index() {
           return { ...prev, seconds: prev.seconds - 1 };
         } else if (prev.seconds === 0 && prev.minutes === 0) {
           clearInterval(interval);
-          return { minutes: 90, seconds: 0, clockOn: false };
+          props.countdownFinished();
+          return {
+            minutes: clockMinutes,
+            seconds: clockSeconds,
+            clockOn: false,
+          };
         }
       });
     }, 1000);
