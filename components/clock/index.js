@@ -20,6 +20,11 @@ export default function index(props) {
     handleInterval();
   }
 
+  function playCompleteSound() {
+    let audio = new Audio("assets/complete.mp3");
+    audio.play();
+  }
+
   function handleInterval() {
     const interval = setInterval(() => {
       setCountDown((prev) => {
@@ -35,6 +40,7 @@ export default function index(props) {
         } else if (prev.seconds === 0 && prev.minutes === 0) {
           clearInterval(interval);
           props.countdownFinished();
+          playCompleteSound();
           return {
             minutes: clockMinutes,
             seconds: clockSeconds,
