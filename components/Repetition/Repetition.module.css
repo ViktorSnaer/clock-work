@@ -8,4 +8,5 @@
   height: 100px;
   background-color: red;
   margin: 1rem;
+  z-index: 1;
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "next/image";
 
 import Head from "next/head";
 
@@ -14,6 +15,11 @@ export default function Home() {
     { key: 2, isCompleted: false },
   ]);
 
+  const [background, setBackground] = useState({
+    img: "https://images.unsplash.com/photo-1645464619320-6bd3702dc2a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDk3ODd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NDcxODEyMzY&ixlib=rb-1.2.1&q=80&w=1080",
+    description: "default photo",
+  });
+
   function countdownFinished() {
     let updated = false;
     setReps((prev) => {
@@ -28,6 +34,21 @@ export default function Home() {
     });
   }
 
+  function fetchApi() {
+    const clientId = process.env.NEXT_PUBLIC_UNSPLASH_CLIENT_ID;
+    fetch(
+      `https://api.unsplash.com/topics/wallpapers/photos?client_id=${clientId}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const randomNum = Math.floor(Math.random() * 10);
+        setBackground({
+          img: data[randomNum].urls.regular,
+          description: data[randomNum].description,
+        });
+      });
+  }
+
   return (
     <div className={classes.container}>
       <Head>
@@ -39,9 +60,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        <h2 className={classes.backgroundDescription}>
+          {background.description}
+        </h2>
+        <Image
+          className={classes.backgroundImage}
+          src={background.img}
+          layout="fill"
+          objectFit="cover"
+          objectPosition="center"
+          alt=""
+        />
         <Repetition reps={reps} />
         <Clock countdownFinished={countdownFinished} />
       </main>
+      <button onClick={fetchApi} className={classes.testButton}>
+        New Image
+      </button>
     </div>
   );
 }

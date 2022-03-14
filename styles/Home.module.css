@@ -5,4 +5,23 @@
   height: 100vh;
 }
 
+.backgroundImage {
+  z-index: 0;
+}
 
+.testButton {
+  z-index: 1;
+  position: absolute;
+  top: 30px;
+  right: 20px;
+}
+
+.backgroundDescription {
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 20px;
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+}
