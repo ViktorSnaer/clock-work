@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 import Head from "next/head";
@@ -9,16 +9,42 @@ import Clock from "../components/clock/index";
 import Repetition from "../components/Repetition";
 
 export default function Home() {
+  const [backgroundArr, setBackgroundArr] = useState([
+    {
+      img: "https://images.unsplash.com/photo-1645464619320-6bd3702dc2a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDk3ODd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NDcxODEyMzY&ixlib=rb-1.2.1&q=80&w=1080",
+      description: "default photo",
+    },
+  ]);
+
+  const [background, setBackground] = useState({ ...backgroundArr[0], num: 0 });
+
+  useEffect(() => {
+    const clientId = process.env.NEXT_PUBLIC_UNSPLASH_CLIENT_ID;
+    fetch(`https://api.unsplash.com/photos?client_id=${clientId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const backgroundData = data.map((img) => {
+          return { img: img.urls.regular, description: img.description };
+        });
+
+        setBackgroundArr(backgroundData);
+      });
+  }, []);
+
+  useEffect(() => {
+    setBackground((prev) => {
+      return {
+        ...backgroundArr[prev.num],
+        num: prev.num < 9 ? prev.num + 1 : 0,
+      };
+    });
+  }, [backgroundArr]);
+
   const [reps, setReps] = useState([
     { key: 0, isCompleted: false },
     { key: 1, isCompleted: false },
     { key: 2, isCompleted: false },
   ]);
-
-  const [background, setBackground] = useState({
-    img: "https://images.unsplash.com/photo-1645464619320-6bd3702dc2a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDk3ODd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NDcxODEyMzY&ixlib=rb-1.2.1&q=80&w=1080",
-    description: "default photo",
-  });
 
   function countdownFinished() {
     let updated = false;
@@ -34,19 +60,13 @@ export default function Home() {
     });
   }
 
-  function fetchApi() {
-    const clientId = process.env.NEXT_PUBLIC_UNSPLASH_CLIENT_ID;
-    fetch(
-      `https://api.unsplash.com/topics/wallpapers/photos?client_id=${clientId}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const randomNum = Math.floor(Math.random() * 10);
-        setBackground({
-          img: data[randomNum].urls.regular,
-          description: data[randomNum].description,
-        });
-      });
+  function newImage() {
+    setBackground((prev) => {
+      return {
+        ...backgroundArr[prev.num],
+        num: prev.num < 9 ? prev.num + 1 : 0,
+      };
+    });
   }
 
   return (
@@ -74,7 +94,7 @@ export default function Home() {
         <Repetition reps={reps} />
         <Clock countdownFinished={countdownFinished} />
       </main>
-      <button onClick={fetchApi} className={classes.testButton}>
+      <button onClick={newImage} className={classes.testButton}>
         New Image
       </button>
     </div>
