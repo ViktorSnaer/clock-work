@@ -56,7 +56,7 @@ export default function index(props) {
   return (
     <div className={classes.circle} onClick={handleOnClick}>
       <p className={classes.time}>
-        {countDown.minutes}:
+        {countDown.minutes < 10 ? `0${countDown.minutes}` : countDown.minutes}:
         {countDown.seconds < 10 ? `0${countDown.seconds}` : countDown.seconds}
       </p>
     </div>
