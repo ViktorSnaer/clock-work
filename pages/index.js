@@ -70,6 +70,15 @@ export default function Home() {
     });
   }
 
+  const [time, setTime] = useState({ minutes: 90, seconds: 0 });
+
+  function configTime(e) {
+    const { value, name } = e;
+    setTime((prev) => {
+      return { ...prev, [name]: value };
+    });
+  }
+
   return (
     <div className={classes.container}>
       <Head>
@@ -81,7 +90,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Settings />
+        <Settings configTime={(e) => configTime(e)} time={time} />
         <h2 className={classes.backgroundDescription}>
           {background.description}
         </h2>
@@ -94,7 +103,7 @@ export default function Home() {
           alt=""
         />
         <Repetition reps={reps} />
-        <Clock countdownFinished={countdownFinished} />
+        <Clock countdownFinished={countdownFinished} time={time} />
       </main>
       <button onClick={newImage} className={classes.testButton}>
         <svg

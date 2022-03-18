@@ -1,7 +1,7 @@
 import { useState } from "react";
 import classes from "./Settings.module.css";
 
-export default function Settings() {
+export default function Settings(props) {
   const [isOpen, setIsOpen] = useState({
     animation: classes.close,
     render: false,
@@ -49,17 +49,23 @@ export default function Settings() {
             <input
               type="number"
               id="minutes"
+              name="minutes"
               placeholder="Minutes..."
               min="0"
               max="99"
+              value={props.time.minutes}
+              onChange={(e) => props.configTime(e.currentTarget)}
             />
             <label htmlFor="seconds">Set seconds from 0 - 59</label>
             <input
               type="number"
               id="seconds"
+              name="seconds"
               placeholder="Seconds..."
               min="0"
               max="59"
+              value={props.time.seconds}
+              onChange={(e) => props.configTime(e.currentTarget)}
             />
             {/* <label htmlFor="showClock">Always display clock</label>
             <input type="checkbox" id="showClock" /> */}

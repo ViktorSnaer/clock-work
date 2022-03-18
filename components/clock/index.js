@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import classes from "./Clock.module.css";
 
 export default function index(props) {
-  const clockMinutes = 90;
-  const clockSeconds = 0;
+  useEffect(() => {
+    setCountDown({ ...props.time, clockOn: false });
+  }, [props.time]);
 
   const [countDown, setCountDown] = useState({
-    minutes: clockMinutes,
-    seconds: clockSeconds,
+    minutes: 90,
+    seconds: 0,
     clockOn: false,
   });
 
@@ -42,8 +43,8 @@ export default function index(props) {
           props.countdownFinished();
           playCompleteSound();
           return {
-            minutes: clockMinutes,
-            seconds: clockSeconds,
+            minutes: props.time.minutes,
+            seconds: props.time.seconds,
             clockOn: false,
           };
         }
