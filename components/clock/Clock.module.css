@@ -4,12 +4,19 @@
   border-radius: 50%;
   width: 300px;
   height: 300px;
-  opacity: 1;
   transition: 1s;
   margin: auto;
 }
 
-.circle:hover {
+.hideCircle {
+  opacity: 0;
+}
+
+.hideCircle:hover {
+  opacity: 1;
+}
+
+.ShowCircle {
   opacity: 1;
 }
 

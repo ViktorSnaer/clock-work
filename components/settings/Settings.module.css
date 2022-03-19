@@ -3,8 +3,8 @@
   left: 0;
   top: 0;
   z-index: 2;
-  height: 50vh;
-  width: 20vw;
+  height: 20rem;
+  width: 18rem;
   margin: 1rem 0.7rem;
   border-radius: 10px;
   background-color: rgb(212, 212, 212);
@@ -87,4 +87,15 @@
 
 .form input:focus {
   outline: none;
+}
+
+.checkboxContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: 0.7rem 0;
+}
+
+.checkboxContainer input {
+  width: fit-content;
 }

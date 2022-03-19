@@ -67,8 +67,17 @@ export default function Settings(props) {
               value={props.time.seconds}
               onChange={(e) => props.configTime(e.currentTarget)}
             />
-            {/* <label htmlFor="showClock">Always display clock</label>
-            <input type="checkbox" id="showClock" /> */}
+            <div className={classes.checkboxContainer}>
+              <label htmlFor="showClock">Display timer</label>
+              <input
+                className={classes.checkbox}
+                type="checkbox"
+                id="showClock"
+                name="showClock"
+                checked={props.time.showClock}
+                onChange={(e) => props.configTime(e.currentTarget)}
+              />
+            </div>
           </form>
         </div>
       )}

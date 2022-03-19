@@ -70,12 +70,16 @@ export default function Home() {
     });
   }
 
-  const [time, setTime] = useState({ minutes: 90, seconds: 0 });
+  const [time, setTime] = useState({
+    minutes: 90,
+    seconds: 0,
+    showClock: false,
+  });
 
   function configTime(e) {
-    const { value, name } = e;
+    const { value, name, type, checked } = e;
     setTime((prev) => {
-      return { ...prev, [name]: value };
+      return { ...prev, [name]: type === "checkbox" ? checked : value };
     });
   }
 
