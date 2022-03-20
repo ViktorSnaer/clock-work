@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 import Head from "next/head";
@@ -9,37 +9,10 @@ import Clock from "../components/clock/index";
 import Repetition from "../components/Repetition";
 import Settings from "../components/settings";
 
-export default function Home() {
-  const [backgroundArr, setBackgroundArr] = useState([
-    {
-      img: "https://images.unsplash.com/photo-1645464619320-6bd3702dc2a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzMDk3ODd8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NDcxODEyMzY&ixlib=rb-1.2.1&q=80&w=1080",
-      description: "default photo",
-    },
-  ]);
+export default function Home(props) {
+  const backgroundArr = [...props.backgroundData];
 
-  const [background, setBackground] = useState({ ...backgroundArr[0], num: 0 });
-
-  useEffect(() => {
-    const clientId = process.env.NEXT_PUBLIC_UNSPLASH_CLIENT_ID;
-    fetch(`https://api.unsplash.com/photos?client_id=${clientId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const backgroundData = data.map((img) => {
-          return { img: img.urls.regular, description: img.description };
-        });
-
-        setBackgroundArr(backgroundData);
-      });
-  }, []);
-
-  useEffect(() => {
-    setBackground((prev) => {
-      return {
-        ...backgroundArr[prev.num],
-        num: prev.num < 9 ? prev.num + 1 : 0,
-      };
-    });
-  }, [backgroundArr]);
+  const [background, setBackground] = useState({ ...backgroundArr[0], num: 1 });
 
   const [reps, setReps] = useState([
     { key: 0, isCompleted: false },
@@ -127,4 +100,22 @@ export default function Home() {
       </button>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const clientId = process.env.UNSPLASH_CLIENT_ID;
+
+  const res = await fetch(
+    `https://api.unsplash.com/photos?client_id=${clientId}`
+  );
+
+  const images = await res.json();
+
+  const backgroundData = await images.map((img) => {
+    return { img: img.urls.regular, description: img.description };
+  });
+
+  return {
+    props: { backgroundData },
+  };
 }
