@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import { createApi } from "unsplash-js";
 
 import Head from "next/head";
 
@@ -38,7 +39,7 @@ export default function Home(props) {
     setBackground((prev) => {
       return {
         ...backgroundArr[prev.num],
-        num: prev.num < 9 ? prev.num + 1 : 0,
+        num: prev.num < backgroundArr.length - 1 ? prev.num + 1 : 0,
       };
     });
   }
@@ -104,17 +105,35 @@ export default function Home(props) {
 }
 
 export async function getStaticProps() {
-  const clientId = process.env.UNSPLASH_CLIENT_ID;
+  const accessKey = process.env.UNSPLASH_ACCESS_KEY;
 
-  const res = await fetch(
-    `https://api.unsplash.com/photos?client_id=${clientId}`
-  );
-
-  const images = await res.json();
-
-  const backgroundData = await images.map((img) => {
-    return { img: img.urls.regular, description: img.description };
+  const unsplash = new createApi({
+    accessKey: accessKey,
   });
+
+  const images = await unsplash.search.getPhotos({
+    query: "nature",
+    page: 1,
+    perPage: 10,
+  });
+
+  let backgroundData;
+  if (images.status !== 200) {
+    backgroundData = [
+      {
+        img: "https://images.unsplash.com/photo-1652543549421-ea252bd209f0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+        description: "",
+      },
+      {
+        img: "https://images.unsplash.com/photo-1506261423908-ea2559c1f24c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1184&q=80",
+        description: "",
+      },
+    ];
+  } else {
+    backgroundData = await images.response.results.map((img) => {
+      return { img: img.urls.regular, description: img.description };
+    });
+  }
 
   return {
     props: { backgroundData },
