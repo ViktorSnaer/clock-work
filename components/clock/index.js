@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import classes from "./Clock.module.css";
 
-export default function index(props) {
+export default function Index(props) {
   useEffect(() => {
     setCountDown({ ...props.time, clockOn: false });
   }, [props.time]);
