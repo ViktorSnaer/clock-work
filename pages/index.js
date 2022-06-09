@@ -51,8 +51,9 @@ export default function Home(props) {
 
   function configTime(e) {
     const { value, name, type, checked } = e;
+    const valueToNumber = Number(value);
     setTime((prev) => {
-      return { ...prev, [name]: type === "checkbox" ? checked : value };
+      return { ...prev, [name]: type === "checkbox" ? checked : valueToNumber };
     });
   }
 
