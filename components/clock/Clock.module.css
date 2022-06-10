@@ -1,9 +1,15 @@
 .circle {
   position: relative;
-  background: rgb(211, 211, 211);
+  background: rgb(105, 255, 223);
+  background: linear-gradient(
+    90deg,
+    rgba(105, 255, 223, 1) 0%,
+    rgba(214, 168, 242, 1) 50%,
+    rgba(255, 167, 172, 1) 100%
+  );
   border-radius: 50%;
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   transition: 1s;
   margin: auto;
 }
@@ -24,7 +30,7 @@
   position: absolute;
   left: 50%;
   top: 0%;
-  transform: translate(-50%, 50%);
+  transform: translate(-50%, 25%);
   font-size: 65px;
   font-weight: 700;
   opacity: 1;

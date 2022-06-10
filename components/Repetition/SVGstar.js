@@ -1,6 +1,6 @@
 export default function Star(props) {
   return (
-    <div style={{ zIndex: 1 }}>
+    <div style={{ zIndex: 1, margin: "1rem" }}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"
